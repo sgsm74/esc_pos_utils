@@ -76,7 +76,7 @@ class Generator {
         .replaceAll("•", '.');
     if (isPersian) {
       return Uint8List.fromList(
-          IranSystemUtil.fromStringMultiPart(text, reverse));
+          IranSystemUtil.fromStringMultiPart(text, false));
     } else if (!isKanji) {
       return latin1.encode(text);
     } else {
