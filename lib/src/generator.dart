@@ -498,7 +498,8 @@ class Generator {
         // CASE 1: containsChinese = false
         Uint8List encodedToPrint = cols[i].textEncoded != null
             ? cols[i].textEncoded!
-            : _encode(cols[i].text, isPersian: cols[i].isPersian);
+            : _encode(cols[i].text,
+                isPersian: cols[i].isPersian, reverse: cols[i].reverse);
 
         // If the col's content is too long, split it to the next row
         int realCharactersNb = encodedToPrint.length;
