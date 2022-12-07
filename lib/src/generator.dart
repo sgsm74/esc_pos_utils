@@ -75,13 +75,17 @@ class Generator {
         .replaceAll(" ", ' ')
         .replaceAll("•", '.');
     if (isPersian) {
-      return Uint8List.fromList(
-          IranSystemUtil.fromStringMultiPart(text, false));
+      return Uint8List.fromList(_encodePersianString(text, reverse: reverse));
     } else if (!isKanji) {
       return latin1.encode(text);
     } else {
       return Uint8List.fromList(gbk_bytes.encode(text));
     }
+  }
+
+  List<int> _encodePersianString(String string, {bool reverse = true}) {
+    List<int> _data = IranSystemUtil.fromStringMultiPart(string, reverse);
+    return reverse ? _data.reversed.toList() : _data.reversed.toList();
   }
 
   List _getLexemes(String text) {
