@@ -8,11 +8,11 @@
 
 import 'dart:convert';
 import 'dart:typed_data' show Uint8List;
+import 'package:esc_pos_utils/src/iran_system_converter.dart';
 import 'package:hex/hex.dart';
 import 'package:image/image.dart';
 import 'package:gbk_codec/gbk_codec.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'enums.dart';
 import 'commands.dart';
 
 class Generator {
@@ -65,7 +65,8 @@ class Generator {
     return charsPerLine;
   }
 
-  Uint8List _encode(String text, {bool isKanji = false}) {
+  Uint8List _encode(String text,
+      {bool isKanji = false, bool isPersian = false, bool reverse = true}) {
     // replace some non-ascii characters
     text = text
         .replaceAll("’", "'")
@@ -73,7 +74,10 @@ class Generator {
         .replaceAll("»", '"')
         .replaceAll(" ", ' ')
         .replaceAll("•", '.');
-    if (!isKanji) {
+    if (isPersian) {
+      return Uint8List.fromList(
+          IranSystemUtil.fromStringMultiPart(text, reverse));
+    } else if (!isKanji) {
       return latin1.encode(text);
     } else {
       return Uint8List.fromList(gbk_bytes.encode(text));
