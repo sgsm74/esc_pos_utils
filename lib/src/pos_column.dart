@@ -19,6 +19,7 @@ class PosColumn {
     this.containsChinese = false,
     this.width = 2,
     this.styles = const PosStyles(),
+    this.isPersian = false,
   }) {
     if (width < 1 || width > 12) {
       throw Exception('Column width must be between 1..12');
@@ -37,4 +38,5 @@ class PosColumn {
   bool containsChinese;
   int width;
   PosStyles styles;
+  bool isPersian;
 }

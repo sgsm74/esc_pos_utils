@@ -351,8 +351,17 @@ class Generator {
     int linesAfter = 0,
     bool containsChinese = false,
     int? maxCharsPerLine,
+    bool isPersian = false,
   }) {
     List<int> bytes = [];
+    if (isPersian) {
+      bytes += _text(
+        _encode(text, isPersian: true),
+        styles: styles,
+        isKanji: containsChinese,
+        maxCharsPerLine: maxCharsPerLine,
+      );
+    }
     if (!containsChinese) {
       bytes += _text(
         _encode(text, isKanji: containsChinese),
@@ -485,7 +494,7 @@ class Generator {
         // CASE 1: containsChinese = false
         Uint8List encodedToPrint = cols[i].textEncoded != null
             ? cols[i].textEncoded!
-            : _encode(cols[i].text);
+            : _encode(cols[i].text, isPersian: cols[i].isPersian);
 
         // If the col's content is too long, split it to the next row
         int realCharactersNb = encodedToPrint.length;
@@ -769,6 +778,7 @@ class Generator {
     PosStyles styles = const PosStyles(),
     int? colInd = 0,
     bool isKanji = false,
+    bool isPersian = true,
     int colWidth = 12,
     int? maxCharsPerLine,
   }) {
